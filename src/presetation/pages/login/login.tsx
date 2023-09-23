@@ -1,47 +1,54 @@
-import React from 'react';
-import {Container} from './login-styles';
-// import {Info} from 'react-native-feather';
-import {TouchableOpacity, Text} from 'react-native';
+import React, {useState} from 'react';
+import {
+  LoginButton,
+  LoginContainer,
+  LoginIcon,
+  LoginImage,
+  LoginLink,
+  LoginText,
+} from './login-styles';
+import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import {Input, Label} from '../../components';
+import dogImage from '../../../img/LVcachorro.png';
 
 const Login: React.FC = () => {
+  const [email, setEmaill] = useState('');
+  const [Password, setPassword] = useState('');
+
+  const LoginAuthentication = () => {
+    return;
+  };
+
   return (
-    <Container>
-      {/* <Image source={dogImage} /> */}
+    <LoginContainer>
+      <LoginImage source={dogImage} />
 
-      <TouchableOpacity onPress={() => {}}>
-        <Icon name="info-circle" size={25} color={'#000'} />
-        <Text>asdas</Text>
-      </TouchableOpacity>
+      <LoginIcon onPress={() => {}}>
+        <Icon name="info-circle" size={25} color={'#fff'} />
+      </LoginIcon>
 
-      {/* <View>
+      <View>
         <Label name="Email" />
-        <Input value={email} onChangeText={setEmail} />
-      </View> */}
+        <Input value={email} change={setEmaill} />
+      </View>
 
-      {/* <View>
+      <View>
         <Label name="Password" />
-        <Input
-          secureTextEntry={true}
-          value={Password}
-          onChangeText={setPassword}
-        />
-      </View> */}
+        <Input secure value={Password} change={setPassword} />
+      </View>
 
-      {/* <Button
-        click={loginUser}
+      <LoginButton
+        click={LoginAuthentication}
         name="Logar"
         email={email}
         password={Password}
       />
-      <Text style={styles.text}>
-        Não tem uma conta?{' '}
-        <Link to="/home" style={styles.link}>
-          {' '}
-          Cadastrar
-        </Link>
-      </Text> */}
-    </Container>
+
+      <LoginText>
+        Não tem uma conta? <LoginLink to="#"> Cadastrar</LoginLink>
+      </LoginText>
+    </LoginContainer>
   );
 };
 
