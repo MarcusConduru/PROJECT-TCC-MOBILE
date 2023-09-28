@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-import {Button} from '../../components';
 import {Link} from '@react-navigation/native';
 
 export const LoginContainer = styled.View`
@@ -16,12 +15,6 @@ export const LoginImage = styled.Image`
 `;
 
 export const LoginIcon = styled.TouchableOpacity`
-  position: absolute;
-  top: 25px;
-  left: 15px;
-`;
-
-export const LoginButton = styled(Button)`
   position: absolute;
   top: 25px;
   left: 15px;

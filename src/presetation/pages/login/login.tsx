@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {
-  LoginButton,
   LoginContainer,
   LoginIcon,
   LoginImage,
@@ -9,22 +8,24 @@ import {
 } from './login-styles';
 import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {Input, Label} from '../../components';
+import {Button, Input, Label} from '../../components';
 import dogImage from '../../../img/LVcachorro.png';
+import {useNavigation} from '@react-navigation/native';
 
 const Login: React.FC = () => {
   const [email, setEmaill] = useState('');
   const [Password, setPassword] = useState('');
 
   const LoginAuthentication = () => {
-    return;
+    navigator.navigate('MapSeach');
   };
+  const navigator = useNavigation();
 
   return (
     <LoginContainer>
       <LoginImage source={dogImage} />
 
-      <LoginIcon onPress={() => {}}>
+      <LoginIcon onPress={() => navigator.navigate('ProtectionLaw')}>
         <Icon name="info-circle" size={25} color={'#fff'} />
       </LoginIcon>
 
@@ -38,7 +39,7 @@ const Login: React.FC = () => {
         <Input secure value={Password} change={setPassword} />
       </View>
 
-      <LoginButton
+      <Button
         click={LoginAuthentication}
         name="Logar"
         email={email}
@@ -46,7 +47,7 @@ const Login: React.FC = () => {
       />
 
       <LoginText>
-        Não tem uma conta? <LoginLink to="#"> Cadastrar</LoginLink>
+        Não tem uma conta? <LoginLink to="/Signup"> Cadastrar</LoginLink>
       </LoginText>
     </LoginContainer>
   );
