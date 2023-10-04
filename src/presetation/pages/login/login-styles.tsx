@@ -3,7 +3,7 @@ import {Link} from '@react-navigation/native';
 
 export const LoginContainer = styled.View`
   flex: 1;
-  background-color: #f75683;
+  background-color: #fc6690;
   align-items: center;
   justify-content: center;
 `;
@@ -23,11 +23,12 @@ export const LoginIcon = styled.TouchableOpacity`
 export const LoginText = styled.Text`
   font-size: 15px;
   margin-top: 5px;
-  color: #fff;
+  color: #000;
+  font-family: 'Lato-Regular';
 `;
 
 export const LoginLink = styled(Link)`
   margin-top: 5px;
-  color: #fff;
-  font-weight: bold;
+  color: #000;
+  font-family: 'Lato-Bold';
 `;

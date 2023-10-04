@@ -15,18 +15,18 @@ import {useNavigation} from '@react-navigation/native';
 const Login: React.FC = () => {
   const [email, setEmaill] = useState('');
   const [Password, setPassword] = useState('');
+  const navigation = useNavigation<any>();
 
   const LoginAuthentication = () => {
-    navigator.navigate('MapSeach');
+    navigation.navigate('RouterTabs');
   };
-  const navigator = useNavigation();
 
   return (
     <LoginContainer>
       <LoginImage source={dogImage} />
 
-      <LoginIcon onPress={() => navigator.navigate('ProtectionLaw')}>
-        <Icon name="info-circle" size={25} color={'#fff'} />
+      <LoginIcon onPress={() => navigation.navigate('ProtectionLaw')}>
+        <Icon name="info-circle" size={25} color={'#000'} />
       </LoginIcon>
 
       <View>

@@ -5,7 +5,7 @@ export const ProtectionItemContainer = styled.View``;
 export const ProtectionContent = styled.Text`
   font-size: 16px;
   color: #222;
-  font-family: 'Inter_500Medium';
+  font-family: 'Lato-Regular';
   margin-top: 10px;
   text-align: justify;
   width: 72%;

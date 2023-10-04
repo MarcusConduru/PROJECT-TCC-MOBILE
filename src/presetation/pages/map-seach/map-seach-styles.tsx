@@ -48,4 +48,5 @@ export const MapCallout = styled.View`
 export const MapText = styled.Text`
   color: #fff;
   font-size: 16px;
+  font-family: 'Lato-Regular';
 `;

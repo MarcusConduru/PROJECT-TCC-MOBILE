@@ -8,7 +8,7 @@ export const ProtectionContainer = styled.SafeAreaView`
 export const ProtectionText = styled.Text`
   font-size: 32px;
   color: #fff;
-  font-family: 'Inter_500Medium';
+  font-family: 'Lato-Regular';
   font-weight: bold;
   background-color: #000;
   width: 100%;
@@ -29,6 +29,7 @@ export const ProtectionInformation = styled.View`
 
 export const ProtectionInfo = styled.Text`
   color: #000;
+  font-family: 'Lato-Regular';
   padding: 4px 2px;
   font-size: 15px;
 `;
