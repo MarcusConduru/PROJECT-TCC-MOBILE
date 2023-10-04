@@ -1,7 +1,14 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {Login, MapSeach, ProtectionLaw, Signup} from '../../presetation/pages';
+import {
+  CreateDenunciation,
+  Login,
+  ProtectionLaw,
+  SelectMap,
+  Signup,
+} from '../../presetation/pages';
+import RouterTabs from './routerTabs';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,7 +21,12 @@ const Router: React.FC = () => {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="ProtectionLaw" component={ProtectionLaw} />
-        <Stack.Screen name="MapSeach" component={MapSeach} />
+        <Stack.Screen name="SelectMap" component={SelectMap} />
+        <Stack.Screen name="RouterTabs" component={RouterTabs} />
+        <Stack.Screen
+          name="CreateDenunciation"
+          component={CreateDenunciation}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
