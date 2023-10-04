@@ -5,20 +5,21 @@ import {
   MapContainer,
   MapMapView,
   MapCallout,
-  MapText
+  MapText,
 } from './map-seach-styles';
 import {Callout, Marker, PROVIDER_GOOGLE, Region} from 'react-native-maps';
-import {PermissionsAndroid, View} from 'react-native';
+import {PermissionsAndroid} from 'react-native';
 import dogImage from '../../../img/mapDogMarker.png';
-import {Text} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Geolocation from '@react-native-community/geolocation';
+import {useNavigation} from '@react-navigation/native';
 
 const MapSeach: React.FC = () => {
   const [region, setRegion] = useState<Region>();
+  const navigation = useNavigation<any>();
 
   useEffect(() => {
-    Geolocation.getCurrentPosition(info => {
+    Geolocation.getCurrentPosition(() => {
       setRegion({
         // latitude: info.coords.latitude,
         // longitude: info.coords.longitude,
@@ -34,6 +35,10 @@ const MapSeach: React.FC = () => {
     PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
     );
+  };
+
+  const handleNavigateToCreateDenunciation = () => {
+    navigation.navigate('SelectMap');
   };
 
   return (
@@ -63,7 +68,7 @@ const MapSeach: React.FC = () => {
         </Marker>
       </MapMapView>
 
-      <MapButton onPress={() => {}}>
+      <MapButton onPress={handleNavigateToCreateDenunciation}>
         <Icon name="search-plus" size={28} color={'#fff'} />
       </MapButton>
 

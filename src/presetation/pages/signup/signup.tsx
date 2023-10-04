@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-
 import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {Button, Input, Label} from '../../components';
@@ -10,7 +9,7 @@ import {useNavigation} from '@react-navigation/native';
 const Signup: React.FC = () => {
   const [email, setEmaill] = useState('');
   const [Password, setPassword] = useState('');
-  const navigator = useNavigation();
+  const navigation = useNavigation();
 
   const SignupAuthentication = () => {
     return;
@@ -18,8 +17,8 @@ const Signup: React.FC = () => {
 
   return (
     <SignupContainer>
-      <SignupIcon onPress={navigator.goBack}>
-        <Icon name="arrow-left" size={25} color={'#fff'} />
+      <SignupIcon onPress={navigation.goBack}>
+        <Icon name="arrow-left" size={25} color={'#000'} />
       </SignupIcon>
 
       <SignupImage source={dogImage} />
