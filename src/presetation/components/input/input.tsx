@@ -8,7 +8,7 @@ type Props = {
   secure?: boolean;
 };
 
-const Inputs: React.FC<Props> = ({change, value, secure = false}: Props) => {
+const Input: React.FC<Props> = ({change, value, secure = false}: Props) => {
   return (
     <InputContainer
       secureTextEntry={secure}
@@ -19,4 +19,4 @@ const Inputs: React.FC<Props> = ({change, value, secure = false}: Props) => {
   );
 };
 
-export default Inputs;
+export default Input;

@@ -6,13 +6,13 @@ export const ButtonContainer = styled.View`
 
 export const ButtonTouchable = styled.TouchableOpacity`
   align-items: center;
-  background-color: #fff;
+  background-color: #000;
   padding: 10px;
   border-radius: 9px;
 `;
 
 export const ButtonText = styled.Text`
-  color: #eb2f64;
+  color: #fff;
   font-size: 16px;
-  font-family: 'Inter_500Medium';
+  font-family: 'Lato-Regular';
 `;
