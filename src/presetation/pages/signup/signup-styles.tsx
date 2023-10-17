@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 export const SignupContainer = styled.View`
   flex: 1;
-  background-color: #f75683;
+  background-color: #fc6690;
   align-items: center;
   justify-content: center;
 `;

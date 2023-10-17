@@ -45,7 +45,7 @@ const CreateDenunciation: React.FC = () => {
   return (
     <DenunciationContainer>
       <DenunciationTitle style={{borderBottomWidth: 2}}>
-        Faça a Denúncia
+        Título
       </DenunciationTitle>
       <InputSpecial
         change={setTitle}
