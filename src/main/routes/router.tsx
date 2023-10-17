@@ -4,6 +4,7 @@ import React from 'react';
 import {
   CreateDenunciation,
   Login,
+  MapDetails,
   ProtectionLaw,
   SelectMap,
   Signup,
@@ -23,6 +24,7 @@ const Router: React.FC = () => {
         <Stack.Screen name="ProtectionLaw" component={ProtectionLaw} />
         <Stack.Screen name="SelectMap" component={SelectMap} />
         <Stack.Screen name="RouterTabs" component={RouterTabs} />
+        <Stack.Screen name="MapDetails" component={MapDetails} />
         <Stack.Screen
           name="CreateDenunciation"
           component={CreateDenunciation}

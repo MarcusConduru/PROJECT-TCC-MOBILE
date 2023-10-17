@@ -5,3 +5,4 @@ export {default as MapSeach} from '../pages/map-seach/map-seach';
 export {default as SelectMap} from '../pages/select-map/select-map';
 export {default as CreateDenunciation} from '../pages/create-denunciation/create-denunciation';
 export {default as ListMap} from '../pages/list-map/list-map';
+export {default as MapDetails} from '../pages/map-details/map-details';
