@@ -1,18 +1,23 @@
 import React, {useState} from 'react';
 import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {Button, Input, Label} from '../../components';
+import {Button, Input, Label, Loading} from '../../components';
 import dogImage from '../../../img/HPcachorro.png';
 import {SignupContainer, SignupIcon, SignupImage} from './signup-styles';
 import {useNavigation} from '@react-navigation/native';
+import {MakwRemoteAddAccount} from '../../../main/factories/usecases';
 
 const Signup: React.FC = () => {
-  const [email, setEmaill] = useState('');
-  const [Password, setPassword] = useState('');
-  const navigation = useNavigation();
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [password, setPassword] = useState('');
+  const navigation = useNavigation<any>();
 
   const SignupAuthentication = () => {
-    return;
+    if (!loading) {
+      setLoading(true);
+      MakwRemoteAddAccount().add({email, password, navigation, setLoading});
+    }
   };
 
   return (
@@ -25,20 +30,21 @@ const Signup: React.FC = () => {
 
       <View>
         <Label name="Email" />
-        <Input value={email} change={setEmaill} />
+        <Input value={email} change={setEmail} />
       </View>
 
       <View>
         <Label name="Password" />
-        <Input secure value={Password} change={setPassword} />
+        <Input secure value={password} change={setPassword} />
       </View>
 
       <Button
         click={SignupAuthentication}
         name="Cadastrar"
         email={email}
-        password={Password}
+        password={password}
       />
+      {loading && <Loading />}
     </SignupContainer>
   );
 };
