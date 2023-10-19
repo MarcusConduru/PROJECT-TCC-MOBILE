@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View} from 'react-native';
+import {Alert, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {Button, Input, Label, Loading} from '../../components';
 import dogImage from '../../../img/HPcachorro.png';
@@ -9,14 +9,33 @@ import {MakwRemoteAddAccount} from '../../../main/factories/usecases';
 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [password, setPassword] = useState('');
   const navigation = useNavigation<any>();
 
   const SignupAuthentication = () => {
-    if (!loading) {
-      setLoading(true);
-      MakwRemoteAddAccount().add({email, password, navigation, setLoading});
+    if (!isLoading) {
+      setIsLoading(true);
+      MakwRemoteAddAccount()
+        .add({email, password})
+        .then(() => {
+          Alert.alert('Cadastro feito Com sucesso');
+          navigation.navigate('RouterTabs');
+        })
+        .catch(err => {
+          setIsLoading(false);
+          switch (err.code) {
+            case 'auth/invalid-email':
+              Alert.alert('O endereço de e-mail é inválido');
+              break;
+            case 'auth/weak-password':
+              Alert.alert('A senha deve ter pelo menos 6 caracteres');
+              break;
+            default:
+              Alert.alert('O endereço de e-mail já foi cadastrado');
+              break;
+          }
+        });
     }
   };
 
@@ -44,7 +63,7 @@ const Signup: React.FC = () => {
         email={email}
         password={password}
       />
-      {loading && <Loading />}
+      {isLoading && <Loading />}
     </SignupContainer>
   );
 };
