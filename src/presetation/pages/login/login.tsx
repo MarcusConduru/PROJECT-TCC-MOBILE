@@ -11,10 +11,14 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import {Button, Input, Label, Loading} from '../../components';
 import dogImage from '../../../img/LVcachorro.png';
 import {useNavigation} from '@react-navigation/native';
-import {MakeRemoteAuthentication} from '../../../main/factories/usecases';
 import contextApi from '../../context/contextApi';
+import {Authentication} from '../../../domain/usecases';
 
-const Login: React.FC = () => {
+type Props = {
+  authentication: Authentication;
+};
+
+const Login: React.FC<Props> = ({authentication}: Props) => {
   const [email, setEmaill] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -24,7 +28,7 @@ const Login: React.FC = () => {
   const LoginAuthentication = () => {
     if (!isLoading) {
       setIsLoading(true);
-      MakeRemoteAuthentication()
+      authentication
         .auth({email, password})
         .then(accountModel => {
           setCurrentAccount(accountModel);

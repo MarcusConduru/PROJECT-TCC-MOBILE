@@ -5,9 +5,13 @@ import {Button, Input, Label, Loading} from '../../components';
 import dogImage from '../../../img/HPcachorro.png';
 import {SignupContainer, SignupIcon, SignupImage} from './signup-styles';
 import {useNavigation} from '@react-navigation/native';
-import {MakwRemoteAddAccount} from '../../../main/factories/usecases';
+import {AddAccount} from '../../../domain/usecases';
 
-const Signup: React.FC = () => {
+type Props = {
+  addAccount: AddAccount;
+};
+
+const Signup: React.FC<Props> = ({addAccount}: Props) => {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [password, setPassword] = useState('');
@@ -16,7 +20,7 @@ const Signup: React.FC = () => {
   const SignupAuthentication = () => {
     if (!isLoading) {
       setIsLoading(true);
-      MakwRemoteAddAccount()
+      addAccount
         .add({email, password})
         .then(() => {
           Alert.alert('Cadastro feito Com sucesso');

@@ -3,11 +3,9 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import {
   CreateDenunciation,
-  Login,
   MapDetails,
   ProtectionLaw,
   SelectMap,
-  Signup,
 } from '../../presetation/pages';
 import RouterTabs from './routerTabs';
 import ContextApi from '../../presetation/context/contextApi';
@@ -15,6 +13,7 @@ import {
   getCurrentAccountAdapter,
   setCurrentAccountAdapter,
 } from '../adapters/current-account-adpter';
+import {MakeLogin, MakeSignup} from '../factories/pages';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,8 +28,8 @@ const Router: React.FC = () => {
         <Stack.Navigator
           screenOptions={{headerShown: false}}
           initialRouteName="Login">
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Signup" component={Signup} />
+          <Stack.Screen name="Login" component={MakeLogin} />
+          <Stack.Screen name="Signup" component={MakeSignup} />
           <Stack.Screen name="ProtectionLaw" component={ProtectionLaw} />
           <Stack.Screen name="SelectMap" component={SelectMap} />
           <Stack.Screen name="RouterTabs" component={RouterTabs} />
