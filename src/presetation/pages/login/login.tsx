@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   LoginContainer,
   LoginIcon,
@@ -6,19 +6,35 @@ import {
   LoginLink,
   LoginText,
 } from './login-styles';
-import {View} from 'react-native';
+import {Alert, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {Button, Input, Label} from '../../components';
+import {Button, Input, Label, Loading} from '../../components';
 import dogImage from '../../../img/LVcachorro.png';
 import {useNavigation} from '@react-navigation/native';
+import {MakeRemoteAuthentication} from '../../../main/factories/usecases';
+import contextApi from '../../context/contextApi';
 
 const Login: React.FC = () => {
   const [email, setEmaill] = useState('');
-  const [Password, setPassword] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation<any>();
+  const {setCurrentAccount} = useContext(contextApi);
 
   const LoginAuthentication = () => {
-    navigation.navigate('RouterTabs');
+    if (!isLoading) {
+      setIsLoading(true);
+      MakeRemoteAuthentication()
+        .auth({email, password})
+        .then(accountModel => {
+          setCurrentAccount(accountModel);
+          navigation.navigate('RouterTabs');
+        })
+        .catch(() => {
+          setIsLoading(false);
+          Alert.alert('Email ou Senha incorretos');
+        });
+    }
   };
 
   return (
@@ -36,19 +52,21 @@ const Login: React.FC = () => {
 
       <View>
         <Label name="Password" />
-        <Input secure value={Password} change={setPassword} />
+        <Input secure value={password} change={setPassword} />
       </View>
 
       <Button
         click={LoginAuthentication}
         name="Logar"
         email={email}
-        password={Password}
+        password={password}
       />
 
       <LoginText>
         Não tem uma conta? <LoginLink to="/Signup"> Cadastrar</LoginLink>
       </LoginText>
+
+      {isLoading && <Loading />}
     </LoginContainer>
   );
 };
