@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   MapButton,
   MapLogout,
@@ -13,10 +13,18 @@ import dogImage from '../../../img/mapDogMarker.png';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Geolocation from '@react-native-community/geolocation';
 import {useNavigation} from '@react-navigation/native';
+import contextApi from '../../context/contextApi';
+import {AccountModel} from '../../../domain/models';
 
 const MapSeach: React.FC = () => {
   const [region, setRegion] = useState<Region>();
+  const [account, setAccount] = useState<AccountModel>();
   const navigation = useNavigation<any>();
+  const {getCurrentAccount} = useContext(contextApi);
+
+  useEffect(() => {
+    getCurrentAccount().then(el => setAccount(JSON.parse(el)));
+  }, [getCurrentAccount]);
 
   useEffect(() => {
     Geolocation.getCurrentPosition(() => {
