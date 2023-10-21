@@ -1,4 +1,5 @@
-import React, {useContext, useEffect, useState} from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useEffect, useState} from 'react';
 import {
   MapButton,
   MapLogout,
@@ -8,23 +9,32 @@ import {
   MapText,
 } from './map-seach-styles';
 import {Callout, Marker, PROVIDER_GOOGLE, Region} from 'react-native-maps';
-import {PermissionsAndroid} from 'react-native';
+import {Alert, BackHandler, PermissionsAndroid} from 'react-native';
 import dogImage from '../../../img/mapDogMarker.png';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Geolocation from '@react-native-community/geolocation';
 import {useNavigation} from '@react-navigation/native';
-import contextApi from '../../context/contextApi';
-import {AccountModel} from '../../../domain/models';
+import {useLogout} from '../../hooks';
+import {
+  ListDenunciation,
+  PropsListDenunciation,
+} from '../../../domain/usecases';
 
-const MapSeach: React.FC = () => {
+type Props = {
+  listDenunciation: ListDenunciation;
+};
+
+const MapSeach: React.FC<Props> = ({listDenunciation}: Props) => {
   const [region, setRegion] = useState<Region>();
-  const [account, setAccount] = useState<AccountModel>();
+  const [denunciation, setDenunciation] = useState<PropsListDenunciation[]>();
   const navigation = useNavigation<any>();
-  const {getCurrentAccount} = useContext(contextApi);
+  const logout = useLogout();
 
   useEffect(() => {
-    getCurrentAccount().then(el => setAccount(JSON.parse(el)));
-  }, [getCurrentAccount]);
+    BackHandler.addEventListener('hardwareBackPress', () => true);
+    return () =>
+      BackHandler.removeEventListener('hardwareBackPress', () => true);
+  }, []);
 
   useEffect(() => {
     Geolocation.getCurrentPosition(() => {
@@ -38,6 +48,21 @@ const MapSeach: React.FC = () => {
       });
     });
   }, []);
+
+  useEffect(() => {
+    listDenunciation
+      .loadAll()
+      .then(querySnapshot => {
+        const listDenuciation = querySnapshot.docs.map(doc => {
+          return doc.data();
+        });
+        setDenunciation(listDenuciation);
+      })
+      .catch(() => {
+        Alert.alert('Algo de errado aconteceu. Tente novamente em breve');
+        logout();
+      });
+  }, [listDenunciation]);
 
   const permissionAccess = () => {
     PermissionsAndroid.request(
@@ -58,29 +83,32 @@ const MapSeach: React.FC = () => {
         zoomEnabled={true}
         loadingEnabled={true}
         region={region}>
-        <Marker
-          calloutAnchor={{
-            x: 0.5,
-            y: 1.4,
-          }}
-          icon={dogImage}
-          coordinate={{
-            latitude: -9.4019328,
-            longitude: -40.4952273,
-          }}>
-          <Callout tooltip onPress={() => {}}>
-            <MapCallout>
-              <MapText>teste</MapText>
-            </MapCallout>
-          </Callout>
-        </Marker>
+        {denunciation?.map(value => (
+          <Marker
+            key={value.latitude + value.longitude}
+            calloutAnchor={{
+              x: 0.5,
+              y: 1.4,
+            }}
+            icon={dogImage}
+            coordinate={{
+              latitude: value.latitude,
+              longitude: value.longitude,
+            }}>
+            <Callout tooltip onPress={() => {}}>
+              <MapCallout>
+                <MapText>{value.title}</MapText>
+              </MapCallout>
+            </Callout>
+          </Marker>
+        ))}
       </MapMapView>
 
       <MapButton onPress={handleNavigateToCreateDenunciation}>
         <Icon name="search-plus" size={28} color={'#fff'} />
       </MapButton>
 
-      <MapLogout onPress={() => {}}>
+      <MapLogout onPress={logout}>
         <Icon name="sign-out-alt" size={16} color={'#fff'} />
       </MapLogout>
     </MapContainer>
