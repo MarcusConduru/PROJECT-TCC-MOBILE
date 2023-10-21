@@ -23,6 +23,9 @@ const Signup: React.FC<Props> = ({addAccount}: Props) => {
       addAccount
         .add({email, password})
         .then(() => {
+          setIsLoading(false);
+          setEmail('');
+          setPassword('');
           Alert.alert('Cadastro feito Com sucesso');
           navigation.navigate('RouterTabs');
         })

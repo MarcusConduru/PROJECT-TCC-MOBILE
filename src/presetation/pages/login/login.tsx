@@ -1,4 +1,5 @@
-import React, {useContext, useState} from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useContext, useEffect, useState} from 'react';
 import {
   LoginContainer,
   LoginIcon,
@@ -13,17 +14,26 @@ import dogImage from '../../../img/LVcachorro.png';
 import {useNavigation} from '@react-navigation/native';
 import contextApi from '../../context/contextApi';
 import {Authentication} from '../../../domain/usecases';
+import {AccountModel} from '../../../domain/models';
 
 type Props = {
   authentication: Authentication;
 };
 
 const Login: React.FC<Props> = ({authentication}: Props) => {
-  const [email, setEmaill] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation<any>();
-  const {setCurrentAccount} = useContext(contextApi);
+  const [account, setAccount] = useState<AccountModel>();
+  const {setCurrentAccount, getCurrentAccount} = useContext(contextApi);
+
+  useEffect(() => {
+    getCurrentAccount().then(el => setAccount(JSON.parse(el)));
+    if (account) {
+      navigation.navigate('RouterTabs');
+    }
+  }, []);
 
   const LoginAuthentication = () => {
     if (!isLoading) {
@@ -31,6 +41,9 @@ const Login: React.FC<Props> = ({authentication}: Props) => {
       authentication
         .auth({email, password})
         .then(accountModel => {
+          setIsLoading(false);
+          setEmail('');
+          setPassword('');
           setCurrentAccount(accountModel);
           navigation.navigate('RouterTabs');
         })
@@ -51,7 +64,7 @@ const Login: React.FC<Props> = ({authentication}: Props) => {
 
       <View>
         <Label name="Email" />
-        <Input value={email} change={setEmaill} />
+        <Input value={email} change={setEmail} />
       </View>
 
       <View>
