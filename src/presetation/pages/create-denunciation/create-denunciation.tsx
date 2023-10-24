@@ -1,5 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
+import firebase from 'firebase/compat';
 import {
   DenunciationButton,
   DenunciationContainer,
@@ -9,11 +10,11 @@ import {
   DenunciationView,
 } from './create-denunciation-styles';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import {TouchableOpacity, View} from 'react-native';
-import MapView, {Marker} from 'react-native-maps';
+import {Marker} from 'react-native-maps';
 import dogImage from '../../../img/mapDogMarker.png';
 import {AddPhotograph, InputMask, InputSpecial} from '../../components';
-import {Text} from 'react-native-elements';
+import {AddDenunciation} from '../../../domain/usecases';
+import {Alert} from 'react-native';
 
 interface RouteParams {
   coords: {
@@ -22,7 +23,11 @@ interface RouteParams {
   };
 }
 
-const CreateDenunciation: React.FC = () => {
+type Props = {
+  addDenunciation: AddDenunciation;
+};
+
+const CreateDenunciation: React.FC<Props> = ({addDenunciation}: Props) => {
   const [title, setTitle] = useState('');
   const [erroTitle, setErroTitle] = useState<any>();
 
@@ -40,7 +45,44 @@ const CreateDenunciation: React.FC = () => {
   const [erroPhotograph, setErroPhotograph] = useState<any>();
 
   const {coords} = useRoute().params as RouteParams;
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
+
+  const uploadImage = async (uri: any, imageName: string) => {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+
+    var ref = firebase
+      .storage()
+      .ref(`${coords.latitude + coords.longitude}`)
+      .child(imageName);
+    ref.put(blob);
+  };
+
+  const CreateNewDenutiation = () => {
+    uploadImage(
+      photograph,
+      photograph.substring(photograph.lastIndexOf('/') + 1),
+    );
+
+    addDenunciation
+      .add({
+        userID: firebase.auth().currentUser?.uid || '',
+        title: title,
+        phone: phone,
+        address: address,
+        complement: complement,
+        description: description,
+        latitude: coords.latitude,
+        longitude: coords.longitude,
+      })
+      .then(() => {
+        Alert.alert('Denúncia criada com sucesso!');
+        navigation.navigate('MapSeach');
+      })
+      .catch(() => {
+        Alert.alert('Algo de errado aconteceu. Tente novamente em breve');
+      });
+  };
 
   return (
     <DenunciationContainer>
@@ -100,7 +142,7 @@ const CreateDenunciation: React.FC = () => {
         photograph={photograph}
       />
 
-      <DenunciationButton onPress={() => {}}>
+      <DenunciationButton onPress={CreateNewDenutiation}>
         <DenunciationText>Cadastrar</DenunciationText>
       </DenunciationButton>
     </DenunciationContainer>
