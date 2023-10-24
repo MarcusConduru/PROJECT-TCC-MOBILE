@@ -1,9 +1,9 @@
 import React from 'react';
 import {MapSeach} from '../../../presetation/pages';
-import {MakeRemoteListDenunciation} from '../usecases';
+import {useVisible} from '../../../presetation/hooks/use-visible';
 
 const MakeMapSeach: React.FC = () => {
-  return <MapSeach listDenunciation={MakeRemoteListDenunciation()} />;
+  return <MapSeach visibleDenunciation={useVisible()} />;
 };
 
 export default MakeMapSeach;

@@ -1,12 +1,7 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {
-  CreateDenunciation,
-  MapDetails,
-  ProtectionLaw,
-  SelectMap,
-} from '../../presetation/pages';
+import {MapDetails, ProtectionLaw, SelectMap} from '../../presetation/pages';
 import RouterTabs from './routerTabs';
 import ContextApi from '../../presetation/context/contextApi';
 import {
@@ -14,6 +9,8 @@ import {
   setCurrentAccountAdapter,
 } from '../adapters/current-account-adpter';
 import {MakeLogin, MakeSignup} from '../factories/pages';
+import {PrivateRoute} from '../../presetation/components';
+import MakeCreateDenunciation from '../factories/pages/create-denunciation-factory';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,13 +28,20 @@ const Router: React.FC = () => {
           <Stack.Screen name="Login" component={MakeLogin} />
           <Stack.Screen name="Signup" component={MakeSignup} />
           <Stack.Screen name="ProtectionLaw" component={ProtectionLaw} />
-          <Stack.Screen name="SelectMap" component={SelectMap} />
-          <Stack.Screen name="RouterTabs" component={RouterTabs} />
-          <Stack.Screen name="MapDetails" component={MapDetails} />
-          <Stack.Screen
-            name="CreateDenunciation"
-            component={CreateDenunciation}
-          />
+          <Stack.Screen name="SelectMap">
+            {props => <PrivateRoute Componet={<SelectMap />} {...props} />}
+          </Stack.Screen>
+          <Stack.Screen name="RouterTabs">
+            {props => <PrivateRoute Componet={<RouterTabs />} {...props} />}
+          </Stack.Screen>
+          <Stack.Screen name="MapDetails">
+            {props => <PrivateRoute Componet={<MapDetails />} {...props} />}
+          </Stack.Screen>
+          <Stack.Screen name="CreateDenunciation">
+            {props => (
+              <PrivateRoute Componet={<MakeCreateDenunciation />} {...props} />
+            )}
+          </Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
     </ContextApi.Provider>

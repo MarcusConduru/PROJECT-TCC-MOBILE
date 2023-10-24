@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
 import {
   MapButton,
@@ -9,32 +8,29 @@ import {
   MapText,
 } from './map-seach-styles';
 import {Callout, Marker, PROVIDER_GOOGLE, Region} from 'react-native-maps';
-import {Alert, BackHandler, PermissionsAndroid} from 'react-native';
+import {BackHandler, PermissionsAndroid} from 'react-native';
 import dogImage from '../../../img/mapDogMarker.png';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Geolocation from '@react-native-community/geolocation';
 import {useNavigation} from '@react-navigation/native';
 import {useLogout} from '../../hooks';
-import {
-  ListDenunciation,
-  PropsListDenunciation,
-} from '../../../domain/usecases';
+import {VisibleDenunciation} from '../../hooks/use-visible';
 
 type Props = {
-  listDenunciation: ListDenunciation;
+  visibleDenunciation: VisibleDenunciation;
 };
 
-const MapSeach: React.FC<Props> = ({listDenunciation}: Props) => {
+const MapSeach: React.FC<Props> = ({visibleDenunciation}: Props) => {
   const [region, setRegion] = useState<Region>();
-  const [denunciation, setDenunciation] = useState<PropsListDenunciation[]>();
   const navigation = useNavigation<any>();
   const logout = useLogout();
+  const {denunciation} = visibleDenunciation;
 
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', () => true);
-    return () =>
-      BackHandler.removeEventListener('hardwareBackPress', () => true);
-  }, []);
+  // useEffect(() => {
+  //   BackHandler.addEventListener('hardwareBackPress', () => true);
+  //   return () =>
+  //     BackHandler.removeEventListener('hardwareBackPress', () => true);
+  // }, []);
 
   useEffect(() => {
     Geolocation.getCurrentPosition(() => {
@@ -49,21 +45,6 @@ const MapSeach: React.FC<Props> = ({listDenunciation}: Props) => {
     });
   }, []);
 
-  useEffect(() => {
-    listDenunciation
-      .loadAll()
-      .then(querySnapshot => {
-        const listDenuciation = querySnapshot.docs.map(doc => {
-          return doc.data();
-        });
-        setDenunciation(listDenuciation);
-      })
-      .catch(() => {
-        Alert.alert('Algo de errado aconteceu. Tente novamente em breve');
-        logout();
-      });
-  }, [listDenunciation]);
-
   const permissionAccess = () => {
     PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -72,6 +53,10 @@ const MapSeach: React.FC<Props> = ({listDenunciation}: Props) => {
 
   const handleNavigateToCreateDenunciation = () => {
     navigation.navigate('SelectMap');
+  };
+
+  const showDenunciationCase = (id: string) => {
+    navigation.navigate('MapDetails', {id});
   };
 
   return (
@@ -85,7 +70,7 @@ const MapSeach: React.FC<Props> = ({listDenunciation}: Props) => {
         region={region}>
         {denunciation?.map(value => (
           <Marker
-            key={value.latitude + value.longitude}
+            key={value.key}
             calloutAnchor={{
               x: 0.5,
               y: 1.4,
@@ -95,7 +80,11 @@ const MapSeach: React.FC<Props> = ({listDenunciation}: Props) => {
               latitude: value.latitude,
               longitude: value.longitude,
             }}>
-            <Callout tooltip onPress={() => {}}>
+            <Callout
+              tooltip
+              onPress={() => {
+                showDenunciationCase(value.key);
+              }}>
               <MapCallout>
                 <MapText>{value.title}</MapText>
               </MapCallout>
