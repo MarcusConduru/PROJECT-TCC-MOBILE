@@ -8,27 +8,37 @@ import {
 } from './list-map-item-styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {useNavigation} from '@react-navigation/native';
+import {VisibleReport} from '../../../hooks';
+import {DeleteDenunciation} from '../../../../domain/usecases';
+import {Alert} from 'react-native';
 
 type Props = {
-  title: string;
-  id: string;
-  latitude: number;
-  longitude: number;
+  item: VisibleReport;
+  deleteReport: DeleteDenunciation;
 };
 
-const ListMapItem: React.FC<Props> = ({
-  id,
-  latitude,
-  longitude,
-  title,
-}: Props) => {
+const ListMapItem: React.FC<Props> = ({item, deleteReport}: Props) => {
   const navigation = useNavigation<any>();
+
+  const DeleteReport = (id: string) => {
+    deleteReport
+      .delete(id)
+      .then(() => {
+        Alert.alert('Denúncia apagada com sucesso!');
+      })
+      .catch(() => {
+        Alert.alert('Algo de errado aconteceu. Tente novamente em breve');
+      });
+  };
 
   return (
     <ListItemSwipeable
       containerStyle={{borderRightWidth: 5, borderRightColor: 'red'}}
       renderRightActions={() => (
-        <ListItemButton onPress={() => {}}>
+        <ListItemButton
+          onPress={() => {
+            DeleteReport(item.key);
+          }}>
           <Icon name="trash-alt" size={24} color={'#fff'} />
         </ListItemButton>
       )}>
@@ -36,7 +46,7 @@ const ListMapItem: React.FC<Props> = ({
         onPress={() => {
           navigation.navigate('MapDetails');
         }}>
-        <ListItemWritten>{title}</ListItemWritten>
+        <ListItemWritten>{item.title}</ListItemWritten>
       </ListItemTouch>
     </ListItemSwipeable>
   );

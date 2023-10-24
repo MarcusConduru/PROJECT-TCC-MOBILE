@@ -12,22 +12,19 @@ import {FlatList} from 'react-native';
 import {ListMapItem} from './component';
 import {Separator} from '../../components';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import {VisibleDenunciation} from '../../hooks';
+import {DeleteDenunciation} from '../../../domain/usecases';
 
-const ListMap: React.FC = () => {
-  const listUser = [
-    {
-      key: '1',
-      latitude: -9.4019328,
-      longitude: -40.4952273,
-      title: 'Teste',
-    },
-    {
-      key: '2',
-      latitude: -9.4019328,
-      longitude: -40.4952273,
-      title: 'Teste2',
-    },
-  ];
+type Props = {
+  visibleDenunciation: VisibleDenunciation;
+  deleteDenunciation: DeleteDenunciation;
+};
+
+const ListMap: React.FC<Props> = ({
+  visibleDenunciation,
+  deleteDenunciation,
+}: Props) => {
+  const {denunciation} = visibleDenunciation;
 
   return (
     <ListContainer>
@@ -35,18 +32,13 @@ const ListMap: React.FC = () => {
         <ListTitle>Marcações</ListTitle>
         <ListSub>Todas as suas marcações de denúncias</ListSub>
       </ListView>
-      {listUser ? (
+      {denunciation.length ? (
         <ListGesture>
           <FlatList
-            data={listUser}
+            data={denunciation}
             keyExtractor={item => item.key}
             renderItem={({item}) => (
-              <ListMapItem
-                latitude={item.latitude}
-                longitude={item.longitude}
-                title={item.title}
-                id={item.key}
-              />
+              <ListMapItem item={item} deleteReport={deleteDenunciation} />
             )}
             ItemSeparatorComponent={Separator}
           />

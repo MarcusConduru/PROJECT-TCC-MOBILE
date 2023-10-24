@@ -1,9 +1,9 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
-import {ListMap} from '../../presetation/pages';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import MakeMapSeach from '../factories/pages/map-seach-factory';
+import MakeListMap from '../factories/pages/list-map-factory';
 
 const Stack = createBottomTabNavigator();
 
@@ -55,7 +55,7 @@ const RouterTabs: React.FC = () => {
       />
       <Stack.Screen
         name="ListMap"
-        component={ListMap}
+        component={MakeListMap}
         options={{
           tabBarLabel: 'Marcações',
           tabBarIcon: ({color, size, focused}) => {
