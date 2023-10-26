@@ -55,10 +55,6 @@ const MapSeach: React.FC<Props> = ({visibleDenunciation}: Props) => {
     navigation.navigate('SelectMap');
   };
 
-  const showDenunciationCase = (id: string) => {
-    navigation.navigate('MapDetails', {id});
-  };
-
   return (
     <MapContainer>
       <MapMapView
@@ -83,7 +79,7 @@ const MapSeach: React.FC<Props> = ({visibleDenunciation}: Props) => {
             <Callout
               tooltip
               onPress={() => {
-                showDenunciationCase(value.key);
+                navigation.navigate('MapDetails', {key: value.key});
               }}>
               <MapCallout>
                 <MapText>{value.title}</MapText>
