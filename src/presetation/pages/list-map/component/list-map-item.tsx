@@ -9,22 +9,43 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {useNavigation} from '@react-navigation/native';
 import {VisibleReport} from '../../../hooks';
-import {DeleteDenunciation} from '../../../../domain/usecases';
+import {
+  DeleteDenunciation,
+  DeleteImage,
+  ListImage,
+} from '../../../../domain/usecases';
 import {Alert} from 'react-native';
 
 type Props = {
   item: VisibleReport;
-  deleteReport: DeleteDenunciation;
+  deleteDenunciation: DeleteDenunciation;
+  deleteImage: DeleteImage;
+  listImage: ListImage;
 };
 
-const ListMapItem: React.FC<Props> = ({item, deleteReport}: Props) => {
+const ListMapItem: React.FC<Props> = ({
+  item,
+  deleteDenunciation,
+  deleteImage,
+  listImage,
+}: Props) => {
   const navigation = useNavigation<any>();
 
-  const DeleteReport = (id: string) => {
-    deleteReport
-      .delete(id)
-      .then(() => {
-        Alert.alert('Denúncia apagada com sucesso!');
+  const DeleteReport = (key: string) => {
+    listImage
+      .loadAll(key)
+      .then(imageRef => {
+        const image = imageRef.items[0].fullPath.replace(key + '/', '');
+        Promise.all([
+          deleteDenunciation.delete(key),
+          deleteImage.delete({image, key}),
+        ])
+          .then(() => {
+            Alert.alert('Denúncia apagada com sucesso!');
+          })
+          .catch(() => {
+            Alert.alert('Algo de errado aconteceu. Tente novamente em breve');
+          });
       })
       .catch(() => {
         Alert.alert('Algo de errado aconteceu. Tente novamente em breve');
@@ -44,7 +65,7 @@ const ListMapItem: React.FC<Props> = ({item, deleteReport}: Props) => {
       )}>
       <ListItemTouch
         onPress={() => {
-          navigation.navigate('MapDetails');
+          navigation.navigate('MapDetails', {key: item.key});
         }}>
         <ListItemWritten>{item.title}</ListItemWritten>
       </ListItemTouch>

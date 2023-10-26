@@ -13,19 +13,26 @@ import {ListMapItem} from './component';
 import {Separator} from '../../components';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {VisibleDenunciation} from '../../hooks';
-import {DeleteDenunciation} from '../../../domain/usecases';
+import {
+  DeleteDenunciation,
+  DeleteImage,
+  ListImage,
+} from '../../../domain/usecases';
 
 type Props = {
   visibleDenunciation: VisibleDenunciation;
   deleteDenunciation: DeleteDenunciation;
+  deleteImage: DeleteImage;
+  listImage: ListImage;
 };
 
 const ListMap: React.FC<Props> = ({
   visibleDenunciation,
   deleteDenunciation,
+  deleteImage,
+  listImage,
 }: Props) => {
   const {denunciation} = visibleDenunciation;
-
   return (
     <ListContainer>
       <ListView>
@@ -38,7 +45,12 @@ const ListMap: React.FC<Props> = ({
             data={denunciation}
             keyExtractor={item => item.key}
             renderItem={({item}) => (
-              <ListMapItem item={item} deleteReport={deleteDenunciation} />
+              <ListMapItem
+                item={item}
+                listImage={listImage}
+                deleteDenunciation={deleteDenunciation}
+                deleteImage={deleteImage}
+              />
             )}
             ItemSeparatorComponent={Separator}
           />
