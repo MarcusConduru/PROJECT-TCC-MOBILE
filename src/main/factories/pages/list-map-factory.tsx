@@ -7,7 +7,7 @@ import {
   MakeRemoteListImage,
 } from '../usecases';
 
-const MakeListMap: React.FC = () => {
+export const MakeListMap: React.FC = () => {
   return (
     <ListMap
       visibleDenunciation={useVisible()}
@@ -17,5 +17,3 @@ const MakeListMap: React.FC = () => {
     />
   );
 };
-
-export default MakeListMap;

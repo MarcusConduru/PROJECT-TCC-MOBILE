@@ -8,10 +8,13 @@ import {
   getCurrentAccountAdapter,
   setCurrentAccountAdapter,
 } from '../adapters/current-account-adpter';
-import {MakeLogin, MakeSignup} from '../factories/pages';
+import {
+  MakeCreateDenunciation,
+  MakeLogin,
+  MakeMapDetails,
+  MakeSignup,
+} from '../factories/pages';
 import {PrivateRoute} from '../../presetation/components';
-import MakeCreateDenunciation from '../factories/pages/create-denunciation-factory';
-import MakeMapDetails from '../factories/pages/map-details-factory';
 
 const Stack = createNativeStackNavigator();
 

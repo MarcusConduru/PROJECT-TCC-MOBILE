@@ -2,8 +2,7 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import MakeMapSeach from '../factories/pages/map-seach-factory';
-import MakeListMap from '../factories/pages/list-map-factory';
+import {MakeListMap, MakeMapSeach} from '../factories/pages';
 
 const Stack = createBottomTabNavigator();
 
