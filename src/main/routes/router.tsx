@@ -1,7 +1,7 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {MapDetails, ProtectionLaw, SelectMap} from '../../presetation/pages';
+import {ProtectionLaw, SelectMap} from '../../presetation/pages';
 import RouterTabs from './routerTabs';
 import ContextApi from '../../presetation/context/contextApi';
 import {
@@ -11,6 +11,7 @@ import {
 import {MakeLogin, MakeSignup} from '../factories/pages';
 import {PrivateRoute} from '../../presetation/components';
 import MakeCreateDenunciation from '../factories/pages/create-denunciation-factory';
+import MakeMapDetails from '../factories/pages/map-details-factory';
 
 const Stack = createNativeStackNavigator();
 
@@ -35,7 +36,7 @@ const Router: React.FC = () => {
             {props => <PrivateRoute Componet={<RouterTabs />} {...props} />}
           </Stack.Screen>
           <Stack.Screen name="MapDetails">
-            {props => <PrivateRoute Componet={<MapDetails />} {...props} />}
+            {props => <PrivateRoute Componet={<MakeMapDetails />} {...props} />}
           </Stack.Screen>
           <Stack.Screen name="CreateDenunciation">
             {props => (

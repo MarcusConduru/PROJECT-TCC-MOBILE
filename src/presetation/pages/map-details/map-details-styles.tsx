@@ -24,11 +24,23 @@ export const DetailsTitle = styled.Text`
   font-family: 'Lato-Bold';
 `;
 
+export const DetailsBox = styled.View`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 2px;
+`;
+
+export const DetailsTag = styled.Text`
+  color: #eb2f64;
+  font-size: 18px;
+  font-family: 'Lato-Bold';
+`;
+
 export const DetailsDescription = styled.Text`
   font-family: 'Lato-Regular';
   color: #eb2f64;
-  line-height: 16px;
-  margin-top: 18px;
   font-size: 16px;
 `;
 

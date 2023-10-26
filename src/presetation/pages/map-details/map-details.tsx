@@ -1,5 +1,6 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
+  DetailsBox,
   DetailsContainer,
   DetailsContainerImages,
   DetailsContainerMensagem,
@@ -14,37 +15,86 @@ import {
   DetailsMensagem,
   DetailsMensagemSend,
   DetailsRoutesText,
+  DetailsTag,
   DetailsTitle,
   DetailsView,
 } from './map-details-styles';
 import dogImage from '../../../img/mapDogMarker.png';
-import Teste from '../../../img/HPcachorro.png';
 import {Marker} from 'react-native-maps';
 import {GestureHandlerRootView, ScrollView} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {VisibleDenunciation, VisibleReport} from '../../hooks';
+import {ListImage} from '../../../domain/usecases';
+import {useRoute} from '@react-navigation/native';
+import {Alert} from 'react-native';
 
-const MapDetails: React.FC = () => {
+type Props = {
+  visibleDenunciation: VisibleDenunciation;
+  listImage: ListImage;
+};
+
+const MapDetails: React.FC<Props> = ({
+  visibleDenunciation,
+  listImage,
+}: Props) => {
   const scrollView = useRef<ScrollView>(null);
   const [mensagem, setMensagem] = useState('');
+  const {key} = useRoute<any>().params;
+  const [image, setImage] = useState('');
+  const {denunciation} = visibleDenunciation;
+  const {latitude, longitude, title, description, address, complement, phone} =
+    denunciation.find(e => e.key === key) as VisibleReport;
+
+  useEffect(() => {
+    listImage
+      .loadAll(key)
+      .then(async refImage => {
+        refImage.items[0].getDownloadURL().then(figure => {
+          setImage(figure);
+        });
+      })
+      .catch(() => {
+        Alert.alert('Algo de errado aconteceu. Tente novamente em breve');
+      });
+  });
 
   return (
     <GestureHandlerRootView>
       <DetailsContainer>
         <DetailsContainerImages>
-          <DetailsImages source={Teste} />
+          <DetailsImages source={{uri: image}} />
         </DetailsContainerImages>
 
         <DetailsContent>
-          <DetailsTitle>Titulo</DetailsTitle>
-          {/* {!!listInfo?.address && !!listInfo.complement && <Text style={styled.description}>{listInfo?.address + ' ' + listInfo?.complement}</Text>} */}
-          <DetailsDescription>Descrição</DetailsDescription>
-          {/* {!!listInfo?.phone && <Text style={styled.description}>{listInfo?.phone}</Text>} */}
+          <DetailsTitle>{title}</DetailsTitle>
+          {address && (
+            <DetailsBox>
+              <DetailsTag>Endereço: </DetailsTag>
+              <DetailsDescription>{address}</DetailsDescription>
+            </DetailsBox>
+          )}
+          {complement && (
+            <DetailsBox>
+              <DetailsTag>Complemento: </DetailsTag>
+              <DetailsDescription>{complement}</DetailsDescription>
+            </DetailsBox>
+          )}
+          <DetailsBox>
+            <DetailsTag>Descrição: </DetailsTag>
+            <DetailsDescription>{description}</DetailsDescription>
+          </DetailsBox>
+          {phone && (
+            <DetailsBox>
+              <DetailsTag>Contato: </DetailsTag>
+              <DetailsDescription>{phone}</DetailsDescription>
+            </DetailsBox>
+          )}
 
           <DetailsMapContainer>
             <DetailsMapView
               initialRegion={{
-                latitude: -9.4019328,
-                longitude: -40.4952273,
+                latitude,
+                longitude,
                 latitudeDelta: 0.008,
                 longitudeDelta: 0.008,
               }}
