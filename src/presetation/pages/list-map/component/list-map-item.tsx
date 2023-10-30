@@ -44,7 +44,10 @@ const ListMapItem: React.FC<Props> = ({
           deleteImage.delete({image, key}),
           deleteMessage.delete(key),
         ])
-          .then(() => {
+          .then(snapshot => {
+            snapshot[2].docs.map(value => {
+              value.ref.delete();
+            });
             Alert.alert('Denúncia apagada com sucesso!');
           })
           .catch(() => {
