@@ -74,7 +74,7 @@ const MapDetails: React.FC<Props> = ({
   };
 
   const handleSendMenssge = () => {
-    if (isLoading) {
+    if (isLoading || !communication) {
       return;
     }
 

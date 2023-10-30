@@ -33,7 +33,7 @@ const ListMap: React.FC<Props> = ({
   deleteDenunciation,
   deleteImage,
   listImage,
-  deleteMessage
+  deleteMessage,
 }: Props) => {
   const {denunciation} = visibleDenunciation;
   return (
