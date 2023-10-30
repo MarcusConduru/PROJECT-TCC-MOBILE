@@ -24,7 +24,7 @@ export type VisibleDenunciation = {
 export const useVisible = (): VisibleDenunciation => {
   const [denunciation, setDenunciation] = useState<VisibleReport[]>([]);
   const [denunciationCollection, loadingDenunciation, error] = useCollection(
-    MakeRemoteListDenunciation().loadAll(),
+    MakeRemoteListDenunciation().loadAll() as any,
   );
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export const useVisible = (): VisibleDenunciation => {
         }))
         .reverse() || [];
 
-    setDenunciation(newDenunciation as any);
+    setDenunciation(newDenunciation as VisibleReport[]);
   }, [denunciationCollection]);
 
   return {
