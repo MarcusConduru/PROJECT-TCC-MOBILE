@@ -36,22 +36,24 @@ const Login: React.FC<Props> = ({authentication}: Props) => {
   }, []);
 
   const LoginAuthentication = () => {
-    if (!isLoading) {
-      setIsLoading(true);
-      authentication
-        .auth({email, password})
-        .then(accountModel => {
-          setIsLoading(false);
-          setEmail('');
-          setPassword('');
-          setCurrentAccount(accountModel);
-          navigation.navigate('RouterTabs');
-        })
-        .catch(() => {
-          setIsLoading(false);
-          Alert.alert('Email ou Senha incorretos');
-        });
+    if (isLoading) {
+      return;
     }
+
+    setIsLoading(true);
+    authentication
+      .auth({email, password})
+      .then(accountModel => {
+        setIsLoading(false);
+        setEmail('');
+        setPassword('');
+        setCurrentAccount(accountModel);
+        navigation.navigate('RouterTabs');
+      })
+      .catch(() => {
+        setIsLoading(false);
+        Alert.alert('Email ou Senha incorretos');
+      });
   };
 
   return (

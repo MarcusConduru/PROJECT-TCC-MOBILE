@@ -18,32 +18,33 @@ const Signup: React.FC<Props> = ({addAccount}: Props) => {
   const navigation = useNavigation<any>();
 
   const SignupAuthentication = () => {
-    if (!isLoading) {
-      setIsLoading(true);
-      addAccount
-        .add({email, password})
-        .then(() => {
-          setIsLoading(false);
-          setEmail('');
-          setPassword('');
-          Alert.alert('Cadastro feito Com sucesso');
-          navigation.navigate('RouterTabs');
-        })
-        .catch(err => {
-          setIsLoading(false);
-          switch (err.code) {
-            case 'auth/invalid-email':
-              Alert.alert('O endereço de e-mail é inválido');
-              break;
-            case 'auth/weak-password':
-              Alert.alert('A senha deve ter pelo menos 6 caracteres');
-              break;
-            default:
-              Alert.alert('O endereço de e-mail já foi cadastrado');
-              break;
-          }
-        });
+    if (isLoading) {
+      return;
     }
+    setIsLoading(true);
+    addAccount
+      .add({email, password})
+      .then(() => {
+        setIsLoading(false);
+        setEmail('');
+        setPassword('');
+        Alert.alert('Cadastro feito Com sucesso');
+        navigation.navigate('RouterTabs');
+      })
+      .catch(err => {
+        setIsLoading(false);
+        switch (err.code) {
+          case 'auth/invalid-email':
+            Alert.alert('O endereço de e-mail é inválido');
+            break;
+          case 'auth/weak-password':
+            Alert.alert('A senha deve ter pelo menos 6 caracteres');
+            break;
+          default:
+            Alert.alert('O endereço de e-mail já foi cadastrado');
+            break;
+        }
+      });
   };
 
   return (
