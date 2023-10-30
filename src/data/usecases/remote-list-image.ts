@@ -1,5 +1,4 @@
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/firestore';
+import firebase from '../../infra/services/connection';
 import {ListImage} from '../../domain/usecases';
 
 export class RemoteListImage implements ListImage {
