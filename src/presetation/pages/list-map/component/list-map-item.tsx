@@ -12,6 +12,7 @@ import {VisibleReport} from '../../../hooks';
 import {
   DeleteDenunciation,
   DeleteImage,
+  DeleteMessage,
   ListImage,
 } from '../../../../domain/usecases';
 import {Alert} from 'react-native';
@@ -21,6 +22,7 @@ type Props = {
   deleteDenunciation: DeleteDenunciation;
   deleteImage: DeleteImage;
   listImage: ListImage;
+  deleteMessage: DeleteMessage;
 };
 
 const ListMapItem: React.FC<Props> = ({
@@ -28,6 +30,7 @@ const ListMapItem: React.FC<Props> = ({
   deleteDenunciation,
   deleteImage,
   listImage,
+  deleteMessage,
 }: Props) => {
   const navigation = useNavigation<any>();
 
@@ -39,6 +42,7 @@ const ListMapItem: React.FC<Props> = ({
         Promise.all([
           deleteDenunciation.delete(key),
           deleteImage.delete({image, key}),
+          deleteMessage.delete(key),
         ])
           .then(() => {
             Alert.alert('Denúncia apagada com sucesso!');

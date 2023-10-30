@@ -16,6 +16,7 @@ import {VisibleDenunciation} from '../../hooks';
 import {
   DeleteDenunciation,
   DeleteImage,
+  DeleteMessage,
   ListImage,
 } from '../../../domain/usecases';
 
@@ -24,6 +25,7 @@ type Props = {
   deleteDenunciation: DeleteDenunciation;
   deleteImage: DeleteImage;
   listImage: ListImage;
+  deleteMessage: DeleteMessage;
 };
 
 const ListMap: React.FC<Props> = ({
@@ -31,6 +33,7 @@ const ListMap: React.FC<Props> = ({
   deleteDenunciation,
   deleteImage,
   listImage,
+  deleteMessage
 }: Props) => {
   const {denunciation} = visibleDenunciation;
   return (
@@ -50,6 +53,7 @@ const ListMap: React.FC<Props> = ({
                 listImage={listImage}
                 deleteDenunciation={deleteDenunciation}
                 deleteImage={deleteImage}
+                deleteMessage={deleteMessage}
               />
             )}
             ItemSeparatorComponent={Separator}

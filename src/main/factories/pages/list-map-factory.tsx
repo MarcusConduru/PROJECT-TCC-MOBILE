@@ -4,6 +4,7 @@ import {useVisible} from '../../../presetation/hooks';
 import {
   MakeRemoteDeleteDenunciation,
   MakeRemoteDeleteImage,
+  MakeRemoteDeleteMessage,
   MakeRemoteListImage,
 } from '../usecases';
 
@@ -14,6 +15,7 @@ export const MakeListMap: React.FC = () => {
       deleteDenunciation={MakeRemoteDeleteDenunciation()}
       deleteImage={MakeRemoteDeleteImage()}
       listImage={MakeRemoteListImage()}
+      deleteMessage={MakeRemoteDeleteMessage()}
     />
   );
 };
