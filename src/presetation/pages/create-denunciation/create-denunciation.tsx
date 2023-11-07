@@ -110,7 +110,7 @@ const CreateDenunciation: React.FC<Props> = ({addDenunciation}: Props) => {
       <InputSpecial
         change={setDescription}
         value={description}
-        name={'Descrição'}
+        name={'Descrição*'}
         error={erroDescription}
         multiline={true}
       />
