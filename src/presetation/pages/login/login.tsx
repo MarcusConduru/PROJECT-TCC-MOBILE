@@ -7,22 +7,26 @@ import {
   LoginLink,
   LoginText,
 } from './login-styles';
-import {Alert, View} from 'react-native';
+import {Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {Button, Input, Label, Loading} from '../../components';
+import {Button, Input, Loading} from '../../components';
 import dogImage from '../../../img/LVcachorro.png';
 import {useNavigation} from '@react-navigation/native';
 import contextApi from '../../context/contextApi';
 import {Authentication} from '../../../domain/usecases';
 import {AccountModel} from '../../../domain/models';
+import {Validation} from '../../../validation/protocols';
 
 type Props = {
   authentication: Authentication;
+  validation: Validation;
 };
 
-const Login: React.FC<Props> = ({authentication}: Props) => {
+const Login: React.FC<Props> = ({authentication, validation}: Props) => {
   const [email, setEmail] = useState('');
+  const [errorEmail, setErrorEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorPassword, setErrorPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation<any>();
   const [account, setAccount] = useState<AccountModel>();
@@ -36,11 +40,18 @@ const Login: React.FC<Props> = ({authentication}: Props) => {
   }, []);
 
   const LoginAuthentication = () => {
-    if (isLoading) {
+    const input = {email, password};
+    const errorEmailInput = validation.validate('email', input);
+    const errorPasswordInput = validation.validate('password', input);
+    setErrorEmail(errorEmailInput);
+    setErrorPassword(errorPasswordInput);
+
+    if (isLoading || !!errorEmailInput || !!errorPasswordInput) {
       return;
     }
 
     setIsLoading(true);
+
     authentication
       .auth({email, password})
       .then(accountModel => {
@@ -64,22 +75,17 @@ const Login: React.FC<Props> = ({authentication}: Props) => {
         <Icon name="info-circle" size={25} color={'#000'} />
       </LoginIcon>
 
-      <View>
-        <Label name="Email" />
-        <Input value={email} change={setEmail} />
-      </View>
+      <Input value={email} change={setEmail} error={errorEmail} name="Email*" />
 
-      <View>
-        <Label name="Password" />
-        <Input secure value={password} change={setPassword} />
-      </View>
-
-      <Button
-        click={LoginAuthentication}
-        name="Logar"
-        email={email}
-        password={password}
+      <Input
+        secure
+        value={password}
+        change={setPassword}
+        error={errorPassword}
+        name="Senha*"
       />
+
+      <Button click={LoginAuthentication} name="Logar" />
 
       <LoginText>
         Não tem uma conta? <LoginLink to="/Signup"> Cadastrar</LoginLink>
