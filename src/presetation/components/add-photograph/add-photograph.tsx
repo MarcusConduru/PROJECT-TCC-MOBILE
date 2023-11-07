@@ -38,7 +38,7 @@ const AddPhotograph: React.FC<Props> = ({
 
   return (
     <PhotographContainer>
-      <Label name={'Foto'} />
+      <Label name={'Foto*'} />
       <PhotographImagesBox>
         {!!photograph && <PhotographImages source={{uri: photograph}} />}
       </PhotographImagesBox>
