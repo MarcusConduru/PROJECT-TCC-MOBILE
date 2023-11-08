@@ -116,3 +116,16 @@ export const DetailsMensagemSend = styled.TouchableOpacity`
   padding: 14px;
   border-radius: 20px;
 `;
+
+export const DetailsIcon = styled.TouchableOpacity`
+  width: 36px;
+  height: 36px;
+  background-color: #f75683;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 20;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+`;

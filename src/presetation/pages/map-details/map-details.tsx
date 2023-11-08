@@ -10,6 +10,7 @@ import {
   DetailsContent,
   DetailsContentMensagem,
   DetailsDescription,
+  DetailsIcon,
   DetailsImages,
   DetailsInput,
   DetailsMapContainer,
@@ -27,7 +28,7 @@ import {GestureHandlerRootView, ScrollView} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {VisibleDenunciation, VisibleMessage, VisibleReport} from '../../hooks';
 import {AddMessage, ListImage} from '../../../domain/usecases';
-import {useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {Alert, Linking, StyleSheet} from 'react-native';
 import {Loading} from '../../components';
 
@@ -53,6 +54,7 @@ const MapDetails: React.FC<Props> = ({
   const {message} = visibleMessage;
   const user = firebase.auth().currentUser;
   const report = denunciation.find(e => e.key === key) as VisibleReport;
+  const navigation = useNavigation<any>();
 
   useEffect(() => {
     listImage
@@ -100,6 +102,9 @@ const MapDetails: React.FC<Props> = ({
   return (
     <GestureHandlerRootView>
       <DetailsContainer>
+        <DetailsIcon onPress={() => navigation.goBack}>
+          <Icon name="arrow-left" size={24} color={'#fff'} />
+        </DetailsIcon>
         <DetailsContainerImages>
           {image && <DetailsImages source={{uri: image}} />}
         </DetailsContainerImages>

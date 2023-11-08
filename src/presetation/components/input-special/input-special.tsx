@@ -28,8 +28,8 @@ const InputSpecial: React.FC<Props> = ({
       <InputSpecialView>
         <InputSpecialContainer
           style={{
-            height: name === 'Descrição' ? 130 : 40,
-            textAlignVertical: name === 'Descrição' ? 'top' : 'auto',
+            height: name === 'Descrição*' ? 130 : 40,
+            textAlignVertical: name === 'Descrição*' ? 'top' : 'auto',
             backgroundColor: error ? '#ff9cb8' : '#fff',
           }}
           value={value}

@@ -26,11 +26,11 @@ const MapSeach: React.FC<Props> = ({visibleDenunciation}: Props) => {
   const logout = useLogout();
   const {denunciation} = visibleDenunciation;
 
-  // useEffect(() => {
-  //   BackHandler.addEventListener('hardwareBackPress', () => true);
-  //   return () =>
-  //     BackHandler.removeEventListener('hardwareBackPress', () => true);
-  // }, []);
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => true);
+    return () =>
+      BackHandler.removeEventListener('hardwareBackPress', () => true);
+  }, []);
 
   useEffect(() => {
     Geolocation.getCurrentPosition(() => {

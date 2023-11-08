@@ -42,7 +42,22 @@ export const DenunciationTitle = styled.Text`
   color: #fff;
   font-family: 'Lato-Bold';
   font-size: 24px;
+  font-weight: bold;
+`;
+
+export const DenunciationIcon = styled.TouchableOpacity`
+  width: 36px;
+  height: 36px;
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  margin-bottom: 4px;
+`;
+
+export const DenunciationBox = styled.View`
+  flex-direction: row;
   border-color: #fff;
   margin-bottom: 15px;
-  font-weight: bold;
+  justify-content: space-between;
 `;

@@ -2,8 +2,10 @@
 import React, {useState} from 'react';
 import firebase from 'firebase/compat';
 import {
+  DenunciationBox,
   DenunciationButton,
   DenunciationContainer,
+  DenunciationIcon,
   DenunciationMapView,
   DenunciationText,
   DenunciationTitle,
@@ -19,8 +21,9 @@ import {
   Loading,
 } from '../../components';
 import {AddDenunciation} from '../../../domain/usecases';
-import {Alert} from 'react-native';
+import {Alert, View} from 'react-native';
 import {Validation} from '../../../validation/protocols';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 interface RouteParams {
   coords: {
@@ -121,9 +124,14 @@ const CreateDenunciation: React.FC<Props> = ({
   return (
     <>
       <DenunciationContainer>
-        <DenunciationTitle style={{borderBottomWidth: 2}}>
-          Faça a sua Denúncia
-        </DenunciationTitle>
+        <DenunciationBox style={{borderBottomWidth: 2}}>
+          <DenunciationIcon onPress={navigation.goBack}>
+            <Icon name="arrow-left" size={24} color={'#fc6690'} />
+          </DenunciationIcon>
+          <DenunciationTitle>Faça a sua Denúncia</DenunciationTitle>
+          <View style={{width: 36}} />
+        </DenunciationBox>
+
         <InputSpecial
           change={setTitle}
           value={title}
