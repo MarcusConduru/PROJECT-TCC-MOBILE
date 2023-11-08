@@ -39,7 +39,7 @@ export const DenunciationText = styled.Text`
 `;
 
 export const DenunciationTitle = styled.Text`
-  color: #000;
+  color: #fff;
   font-family: 'Lato-Bold';
   font-size: 24px;
   border-color: #fff;
