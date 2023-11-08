@@ -31,3 +31,10 @@ export const PhotographImages = styled.Image`
   border-radius: 10px;
   margin: 10px 5px;
 `;
+
+export const PhotographText = styled.Text`
+  color: white;
+  font-family: 'Lato-Bold';
+  font-size: 16px;
+  margin: -5px 12px 10px;
+`;

@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 
 export const DenunciationContainer = styled.ScrollView`
   flex: 1;
-  background-color: #ffb5cb;
+  background-color: #fc6690;
   padding: 20px;
 `;
 

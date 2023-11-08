@@ -1,6 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {InputSpecialContainer, InputSpecialView} from './input-special-styles';
+import {
+  InputSpecialContainer,
+  InputSpecialText,
+  InputSpecialView,
+} from './input-special-styles';
 import {Label} from '../../components';
 
 type Props = {
@@ -23,15 +27,17 @@ const InputSpecial: React.FC<Props> = ({
       <Label name={name} />
       <InputSpecialView>
         <InputSpecialContainer
-          style={[
-            name === 'Descrição' && {height: 130, textAlignVertical: 'top'},
-            !!error && {borderColor: '#c73a3a'},
-          ]}
+          style={{
+            height: name === 'Descrição' ? 130 : 40,
+            textAlignVertical: name === 'Descrição' ? 'top' : 'auto',
+            backgroundColor: error ? '#ff9cb8' : '#fff',
+          }}
           value={value}
           multiline={multiline}
           onChangeText={change}
         />
       </InputSpecialView>
+      {error && <InputSpecialText>{error}</InputSpecialText>}
     </>
   );
 };

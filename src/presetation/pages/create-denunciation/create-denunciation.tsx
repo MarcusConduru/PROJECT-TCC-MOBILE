@@ -12,9 +12,15 @@ import {
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {Marker} from 'react-native-maps';
 import dogImage from '../../../img/mapDogMarker.png';
-import {AddPhotograph, InputMask, InputSpecial} from '../../components';
+import {
+  AddPhotograph,
+  InputMask,
+  InputSpecial,
+  Loading,
+} from '../../components';
 import {AddDenunciation} from '../../../domain/usecases';
 import {Alert} from 'react-native';
+import {Validation} from '../../../validation/protocols';
 
 interface RouteParams {
   coords: {
@@ -25,27 +31,32 @@ interface RouteParams {
 
 type Props = {
   addDenunciation: AddDenunciation;
+  validation: Validation;
 };
 
-const CreateDenunciation: React.FC<Props> = ({addDenunciation}: Props) => {
+const CreateDenunciation: React.FC<Props> = ({
+  addDenunciation,
+  validation,
+}: Props) => {
   const [title, setTitle] = useState('');
-  const [erroTitle, setErroTitle] = useState<any>();
+  const [errorTitle, setErrorTitle] = useState<any>();
 
   const [phone, setPhone] = useState('');
-  const [erroPhone, setErrorPhone] = useState<any>();
+  const [errorPhone, setErrorPhone] = useState<any>();
 
   const [address, setAddress] = useState('');
 
   const [complement, setComplement] = useState('');
 
   const [description, setDescription] = useState('');
-  const [erroDescription, setErroDescription] = useState<any>();
+  const [errorDescription, setErrorDescription] = useState<any>();
 
   const [photograph, setPhotograph] = useState('');
-  const [erroPhotograph, setErroPhotograph] = useState<any>();
+  const [errorPhotograph, setErrorPhotograph] = useState<any>();
 
   const {coords} = useRoute().params as RouteParams;
   const navigation = useNavigation<any>();
+  const [isLoading, setIsLoading] = useState(false);
 
   const uploadImage = async (uri: any, imageName: string) => {
     const response = await fetch(uri);
@@ -59,10 +70,33 @@ const CreateDenunciation: React.FC<Props> = ({addDenunciation}: Props) => {
   };
 
   const CreateNewDenutiation = () => {
+    const input = {photograph, title, description, phone};
+    const errorTitleInput = validation.validate('title', input);
+    const errorPhoneInput = validation.validate('phone', input);
+    const errorDescriptionInput = validation.validate('description', input);
+    const errorPhotographInput = validation.validate('photograph', input);
+
+    setErrorTitle(errorTitleInput);
+    setErrorPhotograph(errorPhotographInput);
+    setErrorDescription(errorDescriptionInput);
+    setErrorPhone(errorPhoneInput);
+
+    if (
+      isLoading ||
+      !!errorTitleInput ||
+      !!errorPhoneInput ||
+      !!errorDescriptionInput ||
+      !!errorPhotographInput
+    ) {
+      return;
+    }
+
     uploadImage(
       photograph,
       photograph.substring(photograph.lastIndexOf('/') + 1),
     );
+
+    setIsLoading(true);
 
     addDenunciation
       .add({
@@ -85,67 +119,70 @@ const CreateDenunciation: React.FC<Props> = ({addDenunciation}: Props) => {
   };
 
   return (
-    <DenunciationContainer>
-      <DenunciationTitle style={{borderBottomWidth: 2}}>
-        Título
-      </DenunciationTitle>
-      <InputSpecial
-        change={setTitle}
-        value={title}
-        name={'Nome da Denúncia*'}
-        error={erroTitle}
-      />
-      <InputMask
-        change={setPhone}
-        value={phone}
-        name={'Telefone'}
-        error={erroPhone}
-      />
-      <InputSpecial change={setAddress} value={address} name={'Endereço'} />
-      <InputSpecial
-        change={setComplement}
-        value={complement}
-        name={'Complemento'}
-      />
-      <InputSpecial
-        change={setDescription}
-        value={description}
-        name={'Descrição*'}
-        error={erroDescription}
-        multiline={true}
-      />
-      <DenunciationView>
-        <DenunciationMapView
-          initialRegion={{
-            latitude: coords.latitude,
-            longitude: coords.longitude,
-            latitudeDelta: 0.008,
-            longitudeDelta: 0.008,
-          }}
-          zoomEnabled={false}
-          pitchEnabled={false}
-          scrollEnabled={false}
-          rotateEnabled={false}>
-          <Marker
-            icon={dogImage}
-            coordinate={{
+    <>
+      <DenunciationContainer>
+        <DenunciationTitle style={{borderBottomWidth: 2}}>
+          Faça a sua Denúncia
+        </DenunciationTitle>
+        <InputSpecial
+          change={setTitle}
+          value={title}
+          name={'Nome da Denúncia*'}
+          error={errorTitle}
+        />
+        <InputMask
+          change={setPhone}
+          value={phone}
+          name={'Telefone'}
+          error={errorPhone}
+        />
+        <InputSpecial change={setAddress} value={address} name={'Endereço'} />
+        <InputSpecial
+          change={setComplement}
+          value={complement}
+          name={'Complemento'}
+        />
+        <InputSpecial
+          change={setDescription}
+          value={description}
+          name={'Descrição*'}
+          error={errorDescription}
+          multiline={true}
+        />
+        <DenunciationView>
+          <DenunciationMapView
+            initialRegion={{
               latitude: coords.latitude,
               longitude: coords.longitude,
+              latitudeDelta: 0.008,
+              longitudeDelta: 0.008,
             }}
-          />
-        </DenunciationMapView>
-      </DenunciationView>
+            zoomEnabled={false}
+            pitchEnabled={false}
+            scrollEnabled={false}
+            rotateEnabled={false}>
+            <Marker
+              icon={dogImage}
+              coordinate={{
+                latitude: coords.latitude,
+                longitude: coords.longitude,
+              }}
+            />
+          </DenunciationMapView>
+        </DenunciationView>
 
-      <AddPhotograph
-        error={erroPhotograph}
-        setPhotograph={setPhotograph}
-        photograph={photograph}
-      />
+        <AddPhotograph
+          error={errorPhotograph}
+          setPhotograph={setPhotograph}
+          photograph={photograph}
+        />
 
-      <DenunciationButton onPress={CreateNewDenutiation}>
-        <DenunciationText>Cadastrar</DenunciationText>
-      </DenunciationButton>
-    </DenunciationContainer>
+        <DenunciationButton onPress={CreateNewDenutiation}>
+          <DenunciationText>Cadastrar</DenunciationText>
+        </DenunciationButton>
+      </DenunciationContainer>
+      {isLoading && <Loading />}
+    </>
   );
 };
 

@@ -1,6 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {InputMaskContainer, InputMaskView} from './input-Mask-styles';
+import {
+  InputMaskContainer,
+  InputMaskText,
+  InputMaskView,
+} from './input-Mask-styles';
 import {Label} from '..';
 
 type Props = {
@@ -23,13 +27,11 @@ const InputMask: React.FC<Props> = ({change, name, value, error}: Props) => {
             withDDD: true,
             dddMask: '(99) ',
           }}
-          style={[
-            name === 'Descrição' && {height: 130},
-            !!error && {borderColor: '#f02727'},
-          ]}
+          style={{backgroundColor: error ? '#ff9cb8' : '#fff'}}
           value={value}
           onChangeText={change}
         />
+        {error && <InputMaskText>{error}</InputMaskText>}
       </InputMaskView>
     </>
   );

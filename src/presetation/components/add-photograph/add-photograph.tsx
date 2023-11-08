@@ -6,6 +6,7 @@ import {
   PhotographContent,
   PhotographImages,
   PhotographImagesBox,
+  PhotographText,
 } from './add-photograph-styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Label from '../label/label';
@@ -45,11 +46,16 @@ const AddPhotograph: React.FC<Props> = ({
 
       <PhotographContent>
         <PhotographButton
-          style={[!!error && {borderColor: '#f02727'}]}
+          style={{backgroundColor: error ? '#ff9cb8' : '#fff'}}
           onPress={ImagesSelectPhone}>
-          <Icon name="search-plus" size={28} color={'#ffb5cb'} />
+          <Icon
+            name="search-plus"
+            size={28}
+            color={error ? '#fff' : '#ffb5cb'}
+          />
         </PhotographButton>
       </PhotographContent>
+      {error && <PhotographText>{error}</PhotographText>}
     </PhotographContainer>
   );
 };
